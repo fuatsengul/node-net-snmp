@@ -4511,7 +4511,7 @@ Mib.prototype.pull = function (options) {
 		showValues: options.showValues === undefined ? true : options.showValues,
 		showTypes: options.showTypes === undefined ? true : options.showTypes
 	};
-	this.root.pull (completedOptions);
+	return this.root.pull (completedOptions);
 };
 
 Mib.convertOidToAddress = function (oid) {
