@@ -3817,10 +3817,9 @@ MibNode.prototype.dump = function (options) {
 };
 
 MibNode.prototype.pull = function (options) {
-	let retVal = [];
 	var valueString;
 	if ( ( ! options.leavesOnly || options.showProviders ) && this.provider ) {
-		retVal.push(this.oid + " [" + MibProviderType[this.provider.type] + ": " + this.provider.name + "]");
+		global_dump.push(this.oid + " [" + MibProviderType[this.provider.type] + ": " + this.provider.name + "]");
 	} else if ( ( ! options.leavesOnly ) || Object.keys (this.children).length == 0 ) {
 		if ( this.value != null ) {
 			valueString = " = ";
@@ -3829,12 +3828,11 @@ MibNode.prototype.pull = function (options) {
 		} else {
 			valueString = "";
 		}
-		retVal.push(this.oid + valueString);
+		global_dump.push(this.oid + valueString);
 	}
 	for ( var node of Object.keys (this.children).sort ((a, b) => a - b)) {
 		this.children[node].pull (options);
 	}
-	return retVal.join("\r\n");
 };
 
 MibNode.oidIsDescended = function (oid, ancestor) {
@@ -4501,6 +4499,7 @@ Mib.prototype.dump = function (options) {
 	this.root.dump (completedOptions);
 };
 
+var global_dump = [];
 Mib.prototype.pull = function (options) {
 	if ( ! options ) {
 		options = {};
@@ -4511,7 +4510,11 @@ Mib.prototype.pull = function (options) {
 		showValues: options.showValues === undefined ? true : options.showValues,
 		showTypes: options.showTypes === undefined ? true : options.showTypes
 	};
-	return this.root.pull (completedOptions);
+
+	global_dump = [];
+
+	this.root.pull (completedOptions);
+	return global_dump.join("\r\n");
 };
 
 Mib.convertOidToAddress = function (oid) {
