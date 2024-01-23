@@ -3816,6 +3816,27 @@ MibNode.prototype.dump = function (options) {
 	}
 };
 
+MibNode.prototype.pull = function (options) {
+	let retVal = [];
+	var valueString;
+	if ( ( ! options.leavesOnly || options.showProviders ) && this.provider ) {
+		console.log (this.oid + " [" + MibProviderType[this.provider.type] + ": " + this.provider.name + "]");
+	} else if ( ( ! options.leavesOnly ) || Object.keys (this.children).length == 0 ) {
+		if ( this.value != null ) {
+			valueString = " = ";
+			valueString += options.showTypes ? ObjectType[this.valueType] + ": " : "";
+			valueString += options.showValues ? this.value : "";
+		} else {
+			valueString = "";
+		}
+		retVal.push(this.oid + valueString);
+	}
+	for ( var node of Object.keys (this.children).sort ((a, b) => a - b)) {
+		this.children[node].dump (options);
+	}
+	return retVal.join("\r\n");
+};
+
 MibNode.oidIsDescended = function (oid, ancestor) {
 	var ancestorAddress = Mib.convertOidToAddress(ancestor);
 	var address = Mib.convertOidToAddress(oid);
