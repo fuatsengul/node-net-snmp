@@ -4501,6 +4501,19 @@ Mib.prototype.dump = function (options) {
 	this.root.dump (completedOptions);
 };
 
+Mib.prototype.pull = function (options) {
+	if ( ! options ) {
+		options = {};
+	}
+	var completedOptions = {
+		leavesOnly: options.leavesOnly === undefined ? true : options.leavesOnly,
+		showProviders: options.showProviders === undefined ? true : options.showProviders,
+		showValues: options.showValues === undefined ? true : options.showValues,
+		showTypes: options.showTypes === undefined ? true : options.showTypes
+	};
+	this.root.pull (completedOptions);
+};
+
 Mib.convertOidToAddress = function (oid) {
 	var address;
 	var oidArray;
