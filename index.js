@@ -3832,7 +3832,7 @@ MibNode.prototype.pull = function (options) {
 		retVal.push(this.oid + valueString);
 	}
 	for ( var node of Object.keys (this.children).sort ((a, b) => a - b)) {
-		this.children[node].dump (options);
+		this.children[node].pull (options);
 	}
 	return retVal.join("\r\n");
 };
