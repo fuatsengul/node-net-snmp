@@ -3820,7 +3820,7 @@ MibNode.prototype.pull = function (options) {
 	let retVal = [];
 	var valueString;
 	if ( ( ! options.leavesOnly || options.showProviders ) && this.provider ) {
-		console.log (this.oid + " [" + MibProviderType[this.provider.type] + ": " + this.provider.name + "]");
+		retVal.push(this.oid + " [" + MibProviderType[this.provider.type] + ": " + this.provider.name + "]");
 	} else if ( ( ! options.leavesOnly ) || Object.keys (this.children).length == 0 ) {
 		if ( this.value != null ) {
 			valueString = " = ";
