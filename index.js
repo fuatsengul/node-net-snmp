@@ -3468,7 +3468,6 @@ ModuleStore.getConstraintsFromSyntax = function (syntax, syntaxTypes) {
 			constraints = {
 				enumeration: cleanArray
 			};
-			console.log(constraints.enumeration);
 			syntax = "INTEGER";
 		}
 	} else {
