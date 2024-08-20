@@ -3459,9 +3459,16 @@ ModuleStore.getConstraintsFromSyntax = function (syntax, syntaxTypes) {
 			};
 			syntax = Object.keys(syntax)[0];
 		} else {
-			constraints = {
-				enumeration: syntax.INTEGER
+			let dirtyArray = syntax.INTEGER;
+			let cleanArray = {};
+			for (let key in dirtyArray) {
+				let newKey = key.trim();
+				cleanArray[newKey] = dirtyArray[key];
 			};
+			constraints = {
+				enumeration: cleanArray
+			};
+			console.log(constraints.enumeration);
 			syntax = "INTEGER";
 		}
 	} else {
